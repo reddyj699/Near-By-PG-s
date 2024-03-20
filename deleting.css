@@ -1,0 +1,34 @@
+#autofill-container {
+    position: relative;
+}
+
+#autofill-list {
+    position: absolute;
+    z-index: 1;
+    background-color:red;
+    border: 1px solid gray;
+    border-radius: 20px;
+    max-height: 100px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    
+}
+
+#autofill-list li {
+    padding: 5px;
+    cursor: pointer;
+    
+}
+.forfilter{
+    cursor: pointer;
+    border:0.5px solid black;
+    
+    padding: 10px 30px;
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 5px;
+    line-height: 0.05em;
+    background: none;
+   
+}
