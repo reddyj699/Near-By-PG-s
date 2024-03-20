@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="contact.css" />
+  <style>
+    #myTextBox {
+      display: none;
+    }
+  </style>
+  <title>Browser</title>
+</head>
+
+<body>
+
+  <small>Please Fill all details For Pg Booking</small>
+  <div class="wrapper centered">
+    <article class="letter">
+      <div class="side">
+        <h1>Book your PG</h1>
+        <form method="post" action="" name="contact-form" onsubmit="Send(); return false;">
+          <p>
+            <input type="text" placeholder="CLG_ID_Number" name='ID_number' class="disappear" id="ID_number">
+          </p>
+          <p>
+            <input type="text" placeholder="Your name" class="disappear" id="name" name="name">
+          </p>
+          <p>
+            <input type="email" placeholder="Your email" class="disappear" id="email" name='email'>
+          </p>
+          <p>
+            <input type="text" placeholder="contact no" class="disappear" id="contactno" name='phoneno'>
+          </p>
+          <p>
+            <input type="text" placeholder="AT what time and data" class="disappear" id="time" name='date'>
+          </p>
+      </div>
+      <input type="hidden" id="pg" name='pgname' >
+      <div class="side">
+        <br><br><br><br><br>
+        <p>
+          <button>Send</button>
+        </p>
+      </div>
+      </form>
+    </article>
+    <div class="envelope front"></div>
+    <div class="envelope back"></div>
+  </div>
+  <p class="result-message centered">Thank you for Booking<br>We will contact you within 24 hours</p>
+
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script>
+  var pgname = localStorage.getItem('number');
+  var pg=document.getElementById('pg');
+  pg.value=pgname;
+    function Send() {
+      console.log('hello world');
+      var pgname = localStorage.getItem('number');
+      document.body.classList.add("sent");
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var contact = document.getElementById("contactno").value;
+      var sub = "Pg admission"
+      var Id = document.getElementById("ID_number").value;
+
+      var body = "Name: " + name + "<br/> Email:" + email + "<br/> Contact Number:" + contact + "<br/> Message:" + Id + "<br/> Pgname:" + pgname;
+
+      Email.send({
+        SecureToken: "534ecd61-e89f-4cdc-b2c6-bc6865c065a8",
+        To: 'reddyjaswanth699@gmail.com',
+        From: "jaswanthyarasi@gmail.com",
+        Subject: sub,
+        Body: body
+      }).then(
+        message => {
+          if (message === 'OK') {
+            swal("Successfull", "Your Data Successfully Received", "success");
+          } else {
+            swal("Something Wrong", "Your Data is not Received", "error");
+          }
+        }
+      );
+
+      setTimeout(submitToGoogleAppsScript, 0);
+    }
+
+    function submitToGoogleAppsScript() {
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwtB-BYPZXdh9t5ILih3_wHUS4JHrBO2CBdHgfl1qjEyEISKw_RW3i6N-jJUfXDelCn/exec';
+      const form = document.forms['contact-form']
+
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => alert("Thank you! Your form is submitted successfully."))
+        .catch(error => console.error('Error!', error.message));
+    }
+  </script>
+</body>
+
+</html>
